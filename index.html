@@ -385,6 +385,25 @@
 
     .hidden { display: none !important; }
 
+    /* ── LOADER SCREEN ── */
+    .loader-top { display: flex; justify-content: center; margin-bottom: 24px; }
+    .loader-ring { position: relative; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; }
+    .loader-ring::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 4px solid var(--purple-bg); border-top-color: var(--purple); animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-progress-wrap { height: 6px; background: #E0E0F0; border-radius: 100px; overflow: hidden; margin-bottom: 24px; }
+    .loader-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #7c73f5); border-radius: 100px; width: 0%; }
+    .loader-steps { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; text-align: left; }
+    .load-item { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-radius: 12px; transition: background 0.3s, opacity 0.3s; opacity: 0.38; }
+    .load-item.active { background: var(--purple-bg); opacity: 1; }
+    .load-item.done { opacity: 1; }
+    .load-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #D0D0E8; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background 0.3s, border-color 0.3s; }
+    .load-item.active .load-dot { border-color: var(--purple); border-top-color: transparent; animation: spin 0.75s linear infinite; }
+    .load-item.done .load-dot { background: var(--green); border-color: var(--green); animation: none; }
+    .load-item.done .load-dot::after { content: '✓'; font-size: 12px; font-weight: 800; color: #fff; line-height: 1; }
+    .load-text { font-size: 14px; font-weight: 500; color: var(--text-mid); line-height: 1.4; }
+    .load-item.active .load-text { font-weight: 700; color: var(--text); }
+    .load-item.done .load-text { color: var(--text-mid); }
+
     /* SMS consent checkboxes */
     .sms-consent-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
     .sms-consent-item input[type=checkbox] { width: 18px; height: 18px; min-width: 18px; accent-color: var(--purple); margin-top: 2px; cursor: pointer; }
@@ -1292,8 +1311,28 @@
           <div class="slider-labels"><span>$0</span><span>$500K+</span></div>
         </div>
       </div>
-      <button class="btn-continue" onclick="go(13)">Continue</button>
+      <button class="btn-continue" onclick="go('sload')">Continue</button>
       <a class="btn-back" onclick="go(11)">Back</a>
+    </div>
+
+    <!-- ─── STEP LOAD: FINDING MATCHES ─── -->
+    <div class="step-card hidden" id="sload">
+      <div class="loader-top">
+        <div class="loader-ring">
+          <svg class="svg-icon svg-icon-md"><use href="#icon-sparkle"/></svg>
+        </div>
+      </div>
+      <div class="loader-progress-wrap">
+        <div class="loader-progress-fill" id="loader-bar"></div>
+      </div>
+      <h2 class="step-q" style="margin-bottom:20px;">Finding Your Best Mortgage Match</h2>
+      <div class="loader-steps">
+        <div class="load-item" id="li1"><span class="load-dot"></span><span class="load-text">Analyzing your loan preferences.</span></div>
+        <div class="load-item" id="li2"><span class="load-dot"></span><span class="load-text">Scoring lender and rate compatibility.</span></div>
+        <div class="load-item" id="li3"><span class="load-dot"></span><span class="load-text">Matching you with the best available mortgage options.</span></div>
+        <div class="load-item" id="li4"><span class="load-dot"></span><span class="load-text">Finalizing your lender match</span></div>
+      </div>
+      <a class="btn-back" style="margin-top:24px;" onclick="cancelLoader()">Back</a>
     </div>
 
     <!-- ─── STEP 13: LENDER MATCHES ─── -->
@@ -1391,13 +1430,13 @@
         </div>
         <div class="ty-title">You're all set!</div>
         <p class="ty-body">Your selected lenders are ready to compete for your business. Review their offers below.</p>
-        <div class="ty-lenders" id="ty-lenders"></div>
         <div class="ty-checklist">
           <h4>What happens next</h4>
           <div class="ty-check"><span class="ty-checkmark">●</span> Lenders review your profile</div>
           <div class="ty-check"><span class="ty-checkmark">●</span> Check out your custom offers below</div>
           <div class="ty-check"><span class="ty-checkmark">●</span> Compare, choose, and close on your best offer</div>
         </div>
+        <div class="ty-lenders" id="ty-lenders"></div>
         <button class="btn-continue" onclick="exitFunnel()">Back to Home</button>
       </div>
     </div>
@@ -1696,8 +1735,8 @@
 <script>
   let curStep = 1;
   let flowType = 'buy';
-  const progress = { 1:4,2:15,3:19,4:30,5:46,6:54,7:58,8:62,9:69,10:72,11:75,12:82,13:88,14:92,'sotp':96,15:100 };
-  const refiProgress = { 's1':4,'s2':10,'s3':16,'rs4':22,'rs5':30,'rs6':38,'rs7':46,'rs8':54,'rs9':60,'s8':67,'s9':73,'s10':78,'s11':82,'s12':87,'s13':92,'s14':96,'sotp':98,'s15':100 };
+  const progress = { 1:4,2:15,3:19,4:30,5:46,6:54,7:58,8:62,9:69,10:72,11:75,12:82,'sload':85,13:88,14:92,'sotp':96,15:100 };
+  const refiProgress = { 's1':4,'s2':10,'s3':16,'rs4':22,'rs5':30,'rs6':38,'rs7':46,'rs8':54,'rs9':60,'s8':67,'s9':73,'s10':78,'s11':82,'s12':87,'sload':89,'s13':92,'s14':96,'sotp':98,'s15':100 };
 
   function beginFunnel(type) {
     flowType = type || 'buy';
@@ -1736,6 +1775,7 @@
     if (step === 7) syncDownPayment();
     if (nextId === 'rs5') syncRemainingBalance();
     if (step === 15) buildTyLenders();
+    if (nextId === 'sload') startLoader();
     window.scrollTo({ top:0, behavior:'smooth' });
   }
 
@@ -1797,6 +1837,35 @@
   function syncInterestRate() {
     const rate = parseFloat(document.getElementById('ir-range').value).toFixed(2);
     document.getElementById('ir-val').value = rate;
+  }
+
+  let _loaderTimers = [];
+
+  function startLoader() {
+    _loaderTimers.forEach(clearTimeout);
+    _loaderTimers = [];
+    [1,2,3,4].forEach(i => { const el = document.getElementById('li'+i); el.classList.remove('active','done'); });
+    const bar = document.getElementById('loader-bar');
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    // Start progress bar over 10s
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        bar.style.transition = 'width 10s linear';
+        bar.style.width = '100%';
+      });
+    });
+    document.getElementById('li1').classList.add('active');
+    _loaderTimers.push(setTimeout(() => { document.getElementById('li1').classList.replace('active','done'); document.getElementById('li2').classList.add('active'); }, 2000));
+    _loaderTimers.push(setTimeout(() => { document.getElementById('li2').classList.replace('active','done'); document.getElementById('li3').classList.add('active'); }, 4500));
+    _loaderTimers.push(setTimeout(() => { document.getElementById('li3').classList.replace('active','done'); document.getElementById('li4').classList.add('active'); }, 7200));
+    _loaderTimers.push(setTimeout(() => { document.getElementById('li4').classList.replace('active','done'); go(13); }, 10000));
+  }
+
+  function cancelLoader() {
+    _loaderTimers.forEach(clearTimeout);
+    _loaderTimers = [];
+    go(12);
   }
 
   function continueWithOffers(count) {
