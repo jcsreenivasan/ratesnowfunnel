@@ -229,7 +229,9 @@
     .review-date { font-size: 0.72rem; color: #a0a0b8; font-weight: 400; }
     .review-stars { color: #F5A623; font-size: 0.8rem; letter-spacing: 1px; }
     .review-body { font-size: 0.83rem; color: var(--slate); line-height: 1.65; flex: 1; }
-    .review-footer { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding-top: 10px; border-top: 1px solid var(--lborder); }
+    .review-footer { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding-top: 10px; border-top: 1px solid var(--lborder); }
+    .review-footer-right { display: flex; align-items: center; gap: 6px; }
+    .review-lender-logo { max-height: 22px; max-width: 80px; object-fit: contain; display: block; }
     .review-footer-text { font-size: 0.68rem; color: #b0b0c8; font-weight: 500; }
     .review-platform-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: #fff; }
     .review-platform-dot.g { background: #EA4335; }
@@ -1914,6 +1916,19 @@
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
+
+  // Inject lender logo into all review footers
+  document.querySelectorAll('.review-footer').forEach(function(footer) {
+    var right = document.createElement('div');
+    right.className = 'review-footer-right';
+    while (footer.firstChild) right.appendChild(footer.firstChild);
+    var logo = document.createElement('img');
+    logo.src = 'strong-home-mortgage-logo.webp';
+    logo.alt = 'Strong Home Mortgage';
+    logo.className = 'review-lender-logo';
+    footer.appendChild(logo);
+    footer.appendChild(right);
+  });
 
   // OTP input: auto-advance and backspace navigation
   document.addEventListener('input', function(e) {
