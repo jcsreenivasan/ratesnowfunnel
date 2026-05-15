@@ -1360,7 +1360,6 @@
             <div class="lender-rate-item"><div class="lrf-label">Points</div><div class="lrf-val">0.5</div></div>
           </div>
           <div class="lender-nmls">NMLS #1707502</div>
-          <div class="lender-nmls">State Lic #MLD5523</div>
           <div class="lender-stars">★★★★★</div>
           <div class="lender-score">4.97 (2,841 reviews)</div>
         </div>
@@ -1373,13 +1372,11 @@
             <div class="lender-rate-item"><div class="lrf-label">Points</div><div class="lrf-val">0.625</div></div>
           </div>
           <div class="lender-nmls">NMLS #330511</div>
-          <div class="lender-nmls">State Lic #MLD891</div>
           <div class="lender-stars">★★★★★</div>
           <div class="lender-score">4.76 (3,241 reviews)</div>
         </div>
       </div>
-      <p class="consent-text">By clicking "Continue," I agree to the following: I provide my express consent to receive emails, notifications, calls (including auto-dialed or pre-recorded/artificial voice calls), and text messages related to mortgage quotes from selected lenders and their agents at the email address and/or phone number(s) I provided, including wireless numbers, even if listed on a do-not-call registry. I understand that message and data rates may apply, that my consent is not a condition of purchasing any goods or services, and that I may revoke my consent at any time.</p>
-      <button class="btn-continue" onclick="continueWithOffers('all')">Continue with both offers</button>
+<button class="btn-continue" onclick="continueWithOffers('all')">Continue with both offers</button>
       <button class="btn-continue secondary" onclick="continueWithOffers(1)">Continue with first offer</button>
       <a class="btn-back" onclick="go(12)">Back</a>
     </div>
@@ -1896,7 +1893,7 @@
       const apr = card.dataset.apr || '—';
       const points = card.dataset.points || '—';
       const ratesHtml = `<div class="ty-lender-rates"><div class="ty-rate-item"><div class="ty-rate-lbl">Rate</div><div class="ty-rate-val">${rate}</div></div><div class="ty-rate-item"><div class="ty-rate-lbl">APR</div><div class="ty-rate-val">${apr}</div></div><div class="ty-rate-item"><div class="ty-rate-lbl">Points</div><div class="ty-rate-val">${points}</div></div></div>`;
-      return `<div class="ty-lender-card">${logoHtml}${ratesHtml}<a class="ty-view-rates" href="#">View Your Rates</a></div>`;
+      return `<div class="ty-lender-card">${logoHtml}${ratesHtml}<a class="ty-view-rates" href="#">View Full Rates &amp; Fees</a></div>`;
     }).join('');
   }
 
